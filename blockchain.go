@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -47,8 +48,12 @@ func (block *Block) PrintBlock() {
 }
 
 func (blockchain *Blockchain) PrintBlockchain() {
-	fmt.Printf("CURRENT TRANSACTION POOL : %v", blockchain.transactionPool)
-	fmt.Printf("CURRENT CHAIN : %v", blockchain.transactionChain)
+	for i, block := range blockchain.transactionChain {
+		fmt.Printf("\n%s Block %d %s\n", strings.Repeat("=", 10), i, strings.Repeat("=", 10))
+		block.PrintBlock()
+	}
+	fmt.Printf("\n%s\n", strings.Repeat("#", 10))
+
 }
 
 // func init() {
