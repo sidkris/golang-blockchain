@@ -35,7 +35,7 @@ func (blockchain *Blockchain) CreateBlock(nonce int, previousHash string) *Block
 
 func NewBlockchain() *Blockchain {
 	blockchain := new(Blockchain)
-	genesisBlock := blockchain.CreateBlock(0, "x000")
+	genesisBlock := blockchain.CreateBlock(0, "genesis-block")
 	blockchain.transactionChain = append(blockchain.transactionChain, genesisBlock)
 	return blockchain
 }
@@ -56,11 +56,9 @@ func (blockchain *Blockchain) PrintBlockchain() {
 
 }
 
-// func init() {
-// 	log.SetPrefix("Blockchain Node : ")
-// }
-
 func main() {
 	blockchain := NewBlockchain()
+	blockchain.PrintBlockchain()
+	blockchain.CreateBlock(1, "x001")
 	blockchain.PrintBlockchain()
 }
