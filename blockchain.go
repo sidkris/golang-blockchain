@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 )
 
@@ -11,6 +10,11 @@ type Block struct {
 	previousHash string
 	timeStamp    int64
 	transaction  []string
+}
+
+type Blockchain struct {
+	transactionPool  []string
+	transactionChain []*Block
 }
 
 func NewBlock(nonce int, previousHash string) *Block {
@@ -22,6 +26,19 @@ func NewBlock(nonce int, previousHash string) *Block {
 	return block
 }
 
+func (blockchain *Blockchain) CreateBlock(nonce int, previousHash string) *Block {
+	block_ := NewBlock(nonce, previousHash)
+	blockchain.transactionChain = append(blockchain.transactionChain, block_)
+	return block_
+}
+
+func NewBlockchain() *Blockchain {
+	blockchain := new(Blockchain)
+	genesisBlock := blockchain.CreateBlock(0, "x000")
+	blockchain.transactionChain = append(blockchain.transactionChain, genesisBlock)
+	return blockchain
+}
+
 func (block *Block) PrintBlock() {
 	fmt.Printf("TIMESTAMP : %d", block.timeStamp)
 	fmt.Printf("\nPREVIOUS HASH : %v", block.previousHash)
@@ -29,12 +46,16 @@ func (block *Block) PrintBlock() {
 	fmt.Printf("\nTRANSACTION : %v", block.transaction)
 }
 
-func init() {
-	log.SetPrefix("Blockchain Node : ")
+func (blockchain *Blockchain) PrintBlockchain() {
+	fmt.Printf("CURRENT TRANSACTION POOL : %v", blockchain.transactionPool)
+	fmt.Printf("CURRENT CHAIN : %v", blockchain.transactionChain)
 }
 
-func main() {
-	block := NewBlock(0, "x000")
-	block.PrintBlock()
+// func init() {
+// 	log.SetPrefix("Blockchain Node : ")
+// }
 
+func main() {
+	blockchain := NewBlockchain()
+	blockchain.PrintBlockchain()
 }
